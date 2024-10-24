@@ -2,6 +2,7 @@ package com.example.simplecalendar
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.simplecalendar.ui.theme.SimpleCalendarTheme
 
-class MainActivity : ComponentActivity() {
+class NotMainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
