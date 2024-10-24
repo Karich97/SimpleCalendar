@@ -34,6 +34,9 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
         ArrayList<String> daysInMonth = daysInMonth(selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
+        // Обновляем адаптер с новыми днями
+        calendarAdapter.updateDaysInMonth(daysInMonth, selectedDate.getMonth() == LocalDate.now().getMonth());
+
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
@@ -46,7 +49,7 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
         int daysInMonth = yearMonth.lengthOfMonth();
 
         LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
-        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
+        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue() - 1;
 
         for (int i = 1; i < 42; i++) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek){
@@ -81,7 +84,7 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
 
     @Override
     public void onItemClick(int position, String dayText) {
-        if (dayText.equals("")){
+        if (dayText.isEmpty()){
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         }
