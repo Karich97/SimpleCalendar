@@ -18,7 +18,7 @@
             android:textColor="@color/blue"
             android:background="@null"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:onClick="previousMonthAction">
         </Button>
 
@@ -41,7 +41,7 @@
             android:textColor="@color/blue"
             android:background="@null"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:onClick="nextMonthAction">
         </Button>
 

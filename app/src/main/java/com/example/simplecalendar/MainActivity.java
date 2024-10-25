@@ -34,7 +34,6 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
         ArrayList<String> daysInMonth = daysInMonth(selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
-        // Обновляем адаптер с новыми днями
         calendarAdapter.updateDaysInMonth(daysInMonth, selectedDate);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
@@ -84,9 +83,9 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
 
     @Override
     public void onItemClick(int position, String dayText) {
-        if (dayText.isEmpty()){
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        if (!dayText.isEmpty()){
+            String message = dayText + " " + monthYearFromDate(selectedDate);
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
     }
 }
