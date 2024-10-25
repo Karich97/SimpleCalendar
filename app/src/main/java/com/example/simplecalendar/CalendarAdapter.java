@@ -9,13 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     private ArrayList<String> daysOfMonth;
     private final OnItemListener onItemListener;
     private final LocalDate selectedDate;
-    private boolean currentMonth = true;
+    private LocalDate currentDate;
 
     public CalendarAdapter(ArrayList<String> daysOfMonth, OnItemListener onItemListener) {
         this.daysOfMonth = daysOfMonth;
@@ -43,16 +44,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
             holder.dayOfMonth.setTextColor(Color.TRANSPARENT); // Скрываем текст для пустых ячеек
         } else {
             int day = Integer.parseInt(dayText);
-            LocalDate date = selectedDate.withDayOfMonth(day);
+            LocalDate date = currentDate.withDayOfMonth(day);
 
-            if (currentMonth) {
-                if (date.equals(selectedDate)) {
-                    holder.dayOfMonth.setTextColor(Color.RED); // Выделяем сегодняшний день
-                } else if (date.getDayOfWeek().getValue() == 6 || date.getDayOfWeek().getValue() == 7) {
-                    holder.dayOfMonth.setTextColor(Color.BLUE); // Выделяем выходные (суббота и воскресенье)
-                } else {
-                    holder.dayOfMonth.setTextColor(Color.BLACK); // Обычный цвет для будних дней
-                }
+            if (date.equals(selectedDate)) {
+                holder.dayOfMonth.setTextColor(Color.RED); // Выделяем сегодняшний день
+            } else if (date.getDayOfWeek().getValue() == 6 || date.getDayOfWeek().getValue() == 7) {
+                holder.dayOfMonth.setTextColor(Color.BLUE); // Выделяем выходные (суббота и воскресенье)
+            } else {
+                holder.dayOfMonth.setTextColor(Color.BLACK); // Обычный цвет для будних дней
             }
         }
     }
@@ -62,9 +61,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         return daysOfMonth.size();
     }
 
-    public void updateDaysInMonth(ArrayList<String> newDaysOfMonth, boolean currentMonth) {
+    public void updateDaysInMonth(ArrayList<String> newDaysOfMonth, LocalDate currentMonth) {
         this.daysOfMonth = newDaysOfMonth;
-        this.currentMonth = currentMonth;
+        this.currentDate = currentMonth;
     }
 
     public interface OnItemListener{

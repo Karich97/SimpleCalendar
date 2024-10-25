@@ -35,7 +35,7 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         // Обновляем адаптер с новыми днями
-        calendarAdapter.updateDaysInMonth(daysInMonth, selectedDate.getMonth() == LocalDate.now().getMonth());
+        calendarAdapter.updateDaysInMonth(daysInMonth, selectedDate);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
