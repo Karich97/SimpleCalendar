@@ -53,6 +53,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
             // Для выходных дней
             if (date.getDayOfWeek().getValue() == 6 || date.getDayOfWeek().getValue() == 7) {
                 holder.dayOfMonth.setTextColor(Color.BLUE);
+                border.setStroke(2, Color.WHITE);
+                border.setColor(Color.LTGRAY);
             }
             // Для будних дней
             else {
