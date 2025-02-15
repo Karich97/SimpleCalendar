@@ -34,11 +34,16 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
         initWigets();
         selectedDate = LocalDate.now();
         setMonthView();
+        initThems();
+    }
+
+    private void initThems() {
         // Загружаем сохранённую тему
         SharedPreferences preferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
         boolean isDarkMode = preferences.getBoolean("dark_mode", false);
         AppCompatDelegate.setDefaultNightMode(isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         themeSwitch.setChecked(isDarkMode);
+        updateColors(isDarkMode);
 
         // Устанавливаем слушатель для переключателя
         themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
