@@ -1,6 +1,7 @@
 package com.example.simplecalendar;
 
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -25,16 +26,25 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
     private Switch themeSwitch;
+    private LinearLayout rootView;
+    private LinearLayout topLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        themeSwitch = findViewById(R.id.themeSwitch);
         initWigets();
         selectedDate = LocalDate.now();
         setMonthView();
         initThems();
+    }
+
+    private void initWigets() {
+        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
+        monthYearText = findViewById(R.id.monthYearTV);
+        themeSwitch = findViewById(R.id.themeSwitch);
+        rootView = findViewById(R.id.rootLayout);
+        topLayout = findViewById(R.id.topLayout);
     }
 
     private void initThems() {
@@ -61,24 +71,29 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
         });
     }
 
-    private void initWigets() {
-        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
-        monthYearText = findViewById(R.id.monthYearTV);
-    }
-
     // Метод для обновления цветов
     private void updateColors(boolean isDarkMode) {
         int backgroundColor = getResources().getColor(isDarkMode ? R.color.background_color_dark : R.color.background_color_light);
         int textColor = getResources().getColor(isDarkMode ? R.color.text_color_dark : R.color.text_color_light);
-//        int buttonTextColor = getResources().getColor(isDarkMode ? R.color.white : R.color.black);
-//        int borderColor = getResources().getColor(isDarkMode ? R.color.border_color_dark : R.color.border_color_light);
+        int bordersColor = getResources().getColor(isDarkMode ? R.color.background_color_dark : R.color.border_color_light);
+        int buttonsColor = getResources().getColor(isDarkMode ? R.color.button_color_dark : R.color.button_color_light);
+        int buttonsTextColor = getResources().getColor(isDarkMode ? R.color.button_text_color_dark : R.color.button_text_color_light);
+        int switchColor = getResources().getColor(isDarkMode ? R.color.switch_text_color_dark : R.color.switch_text_color_light);
 
-        // Устанавливаем цвет фона для корневого элемента
-        LinearLayout rootView = findViewById(R.id.rootLayout); // Предположим, что у вас есть корневой LinearLayout с ID rootLayout
         rootView.setBackgroundColor(backgroundColor);
+        topLayout.setBackgroundColor(backgroundColor);
 
-        // Устанавливаем цвет текста для monthYearText
+        // Устанавливаем цвет текста
         monthYearText.setTextColor(textColor);
+        themeSwitch.setThumbResource(isDarkMode ? R.drawable.switch_thumb : R.drawable.switch_thumb);
+        themeSwitch.setTrackTintList(ColorStateList.valueOf(textColor));
+        for (int i = 0; i < topLayout.getChildCount(); i++) {
+            View child = topLayout.getChildAt(i);
+            if (child instanceof TextView) {
+                ((TextView) child).setTextColor(textColor);
+            }
+        }
+
 //        calendarRecyclerView.setBackgroundColor(textColor);
 //
 //        // Обновляем цвет текста для кнопок
