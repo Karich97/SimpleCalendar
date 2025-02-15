@@ -1,12 +1,17 @@
 package com.example.simplecalendar;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,14 +24,67 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
+    private Switch themeSwitch;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        themeSwitch = findViewById(R.id.themeSwitch);
         initWigets();
         selectedDate = LocalDate.now();
         setMonthView();
+        // Загружаем сохранённую тему
+        SharedPreferences preferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        boolean isDarkMode = preferences.getBoolean("dark_mode", false);
+        AppCompatDelegate.setDefaultNightMode(isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        themeSwitch.setChecked(isDarkMode);
+
+        // Устанавливаем слушатель для переключателя
+        themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Сохраняем состояние переключателя
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("dark_mode", isChecked);
+                editor.apply();
+
+                // Меняем тему
+                AppCompatDelegate.setDefaultNightMode(isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+                updateColors(isChecked);
+            }
+        });
+    }
+
+    private void initWigets() {
+        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
+        monthYearText = findViewById(R.id.monthYearTV);
+    }
+
+    // Метод для обновления цветов
+    private void updateColors(boolean isDarkMode) {
+        int backgroundColor = getResources().getColor(isDarkMode ? R.color.background_color_dark : R.color.background_color_light);
+        int textColor = getResources().getColor(isDarkMode ? R.color.text_color_dark : R.color.text_color_light);
+//        int buttonTextColor = getResources().getColor(isDarkMode ? R.color.white : R.color.black);
+//        int borderColor = getResources().getColor(isDarkMode ? R.color.border_color_dark : R.color.border_color_light);
+
+        // Устанавливаем цвет фона для корневого элемента
+        LinearLayout rootView = findViewById(R.id.rootLayout); // Предположим, что у вас есть корневой LinearLayout с ID rootLayout
+        rootView.setBackgroundColor(backgroundColor);
+
+        // Устанавливаем цвет текста для monthYearText
+        monthYearText.setTextColor(textColor);
+//        calendarRecyclerView.setBackgroundColor(textColor);
+//
+//        // Обновляем цвет текста для кнопок
+//        Button backButton = findViewById(R.id.backButton); // Замените на ваш ID
+//        Button forwardButton = findViewById(R.id.forwardButton); // Замените на ваш ID
+//        backButton.setTextColor(buttonTextColor);
+//        forwardButton.setTextColor(buttonTextColor);
+//
+//        // Обновляем цвет рамки
+//        LinearLayout borderLayout = findViewById(R.id.borderLayout); // Замените на ваш ID
+//        borderLayout.setBackgroundColor(borderColor);
     }
 
     private void setMonthView() {
@@ -64,11 +122,6 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
     private String monthYearFromDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
         return date.format(formatter);
-    }
-
-    private void initWigets() {
-        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
-        monthYearText = findViewById(R.id.monthYearTV);
     }
 
     public void previousMonthAction(View view) {
