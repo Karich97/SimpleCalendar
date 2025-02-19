@@ -7,7 +7,7 @@
     <color name="text_color_light">#000000</color>
 
     <color name="border_color_dark">#F0F0F0</color>
-    <color name="border_color_light">#808080</color>
+    <color name="border_color_light">#000000</color>
 
     <color name="button_color_dark">#2196F3</color>
     <color name="button_color_light">#BBDEFB</color>

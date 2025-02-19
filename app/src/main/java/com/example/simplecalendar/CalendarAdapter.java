@@ -52,7 +52,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
             // Для выходных дней
             if (date.getDayOfWeek().getValue() == 6 || date.getDayOfWeek().getValue() == 7) {
-                holder.dayOfMonth.setTextColor(Color.BLUE);
+                holder.dayOfMonth.setTextColor(Color.parseColor("#2196F3"));
                 border.setStroke(2, Color.WHITE);
                 border.setColor(Color.LTGRAY);
             }
@@ -62,7 +62,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
             }
             // Для сегодняшней даты
             if (date.equals(LocalDate.now())) {
-                border.setStroke(14, Color.BLUE);
+                border.setStroke(14, Color.parseColor("#2196F3"));
             }
 
             holder.itemView.setBackground(border);

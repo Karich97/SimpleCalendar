@@ -138,10 +138,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
-            android:thumb="@drawable/switch_thumb"
-            android:track="@drawable/switch_track"
-            android:showText="false" />
+            android:text="Mode"
+            android:textColor="@color/text_color_light"
+            android:thumbTint="@color/button_color_dark"
+            android:trackTint="@color/button_color_dark"
+            android:trackTintMode="src_in" />
     </LinearLayout>
-
 
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.example.simplecalendar;
 
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -35,8 +34,10 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
         setContentView(R.layout.activity_main);
         initWigets();
         selectedDate = LocalDate.now();
+        SharedPreferences preferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        boolean isDarkMode = preferences.getBoolean("dark_mode", false);
+        initThems(isDarkMode, preferences);
         setMonthView();
-        initThems();
     }
 
     private void initWigets() {
@@ -47,10 +48,9 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
         topLayout = findViewById(R.id.topLayout);
     }
 
-    private void initThems() {
+    private void initThems(boolean isDarkMode, SharedPreferences preferences) {
         // Загружаем сохранённую тему
-        SharedPreferences preferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
-        boolean isDarkMode = preferences.getBoolean("dark_mode", false);
+
         AppCompatDelegate.setDefaultNightMode(isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         themeSwitch.setChecked(isDarkMode);
         updateColors(isDarkMode);
@@ -71,40 +71,24 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
         });
     }
 
-    // Метод для обновления цветов
     private void updateColors(boolean isDarkMode) {
         int backgroundColor = getResources().getColor(isDarkMode ? R.color.background_color_dark : R.color.background_color_light);
         int textColor = getResources().getColor(isDarkMode ? R.color.text_color_dark : R.color.text_color_light);
         int bordersColor = getResources().getColor(isDarkMode ? R.color.background_color_dark : R.color.border_color_light);
-        int buttonsColor = getResources().getColor(isDarkMode ? R.color.button_color_dark : R.color.button_color_light);
+        int buttonsColor = getResources().getColor(isDarkMode ? R.color.button_color_light : R.color.button_color_dark);
         int buttonsTextColor = getResources().getColor(isDarkMode ? R.color.button_text_color_dark : R.color.button_text_color_light);
         int switchColor = getResources().getColor(isDarkMode ? R.color.switch_text_color_dark : R.color.switch_text_color_light);
 
         rootView.setBackgroundColor(backgroundColor);
         topLayout.setBackgroundColor(backgroundColor);
-
-        // Устанавливаем цвет текста
         monthYearText.setTextColor(textColor);
-        themeSwitch.setThumbResource(isDarkMode ? R.drawable.switch_thumb : R.drawable.switch_thumb);
-        themeSwitch.setTrackTintList(ColorStateList.valueOf(textColor));
+        themeSwitch.setTextColor(textColor);
         for (int i = 0; i < topLayout.getChildCount(); i++) {
             View child = topLayout.getChildAt(i);
             if (child instanceof TextView) {
                 ((TextView) child).setTextColor(textColor);
             }
         }
-
-//        calendarRecyclerView.setBackgroundColor(textColor);
-//
-//        // Обновляем цвет текста для кнопок
-//        Button backButton = findViewById(R.id.backButton); // Замените на ваш ID
-//        Button forwardButton = findViewById(R.id.forwardButton); // Замените на ваш ID
-//        backButton.setTextColor(buttonTextColor);
-//        forwardButton.setTextColor(buttonTextColor);
-//
-//        // Обновляем цвет рамки
-//        LinearLayout borderLayout = findViewById(R.id.borderLayout); // Замените на ваш ID
-//        borderLayout.setBackgroundColor(borderColor);
     }
 
     private void setMonthView() {
