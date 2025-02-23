@@ -32,7 +32,7 @@
             android:layout_weight="2"
             android:layout_height="wrap_content"
             android:text="Oct   2024"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textAlignment="center"
             android:textColor="@color/text_color_light" />
 

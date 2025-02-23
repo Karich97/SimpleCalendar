@@ -124,7 +124,7 @@ public class MainActivity extends ComponentActivity implements CalendarAdapter.O
     }
 
     private String monthYearFromDate(LocalDate date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy");
         return date.format(formatter);
     }
 
